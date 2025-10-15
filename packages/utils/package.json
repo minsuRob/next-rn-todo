@@ -10,12 +10,12 @@
     "test": "vitest --run"
   },
   "dependencies": {
-    "@repo/types": "*",
+    "@repo/types": "workspace:*",
     "date-fns": "^4.1.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "typescript": "5.9.2",
     "vitest": "^2.1.8"
   }
