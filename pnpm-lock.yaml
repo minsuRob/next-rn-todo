@@ -200,11 +200,11 @@ importers:
   packages/ui:
     dependencies:
       react:
-        specifier: ^19.1.0
+        specifier: 19.1.0
         version: 19.1.0
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.1.0(react@19.1.0)
+      react-native:
+        specifier: 0.81.4
+        version: 0.81.4(@babel/core@7.28.4)(@types/react@19.1.0)(react@19.1.0)
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -218,9 +218,6 @@ importers:
       '@types/react':
         specifier: 19.1.0
         version: 19.1.0
-      '@types/react-dom':
-        specifier: 19.1.1
-        version: 19.1.1(@types/react@19.1.0)
       eslint:
         specifier: ^9.34.0
         version: 9.37.0
@@ -6791,6 +6788,7 @@ snapshots:
   '@types/react-dom@19.1.1(@types/react@19.1.0)':
     dependencies:
       '@types/react': 19.1.0
+    optional: true
 
   '@types/react@19.1.0':
     dependencies:
