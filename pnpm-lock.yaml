@@ -179,6 +179,37 @@ importers:
         specifier: ^8.40.0
         version: 8.46.1(eslint@9.37.0)(typescript@5.9.2)
 
+  packages/hooks:
+    dependencies:
+      '@repo/api':
+        specifier: workspace:*
+        version: link:../api
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+      '@tanstack/react-query':
+        specifier: ^5.62.14
+        version: 5.90.3(react@19.1.0)
+      react:
+        specifier: 19.1.0
+        version: 19.1.0
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/react':
+        specifier: 19.1.0
+        version: 19.1.0
+      eslint:
+        specifier: ^9.34.0
+        version: 9.37.0
+      typescript:
+        specifier: 5.9.2
+        version: 5.9.2
+
   packages/types:
     dependencies:
       zod:
@@ -1666,6 +1697,14 @@ packages:
 
   '@supabase/supabase-js@2.75.0':
     resolution: {integrity: sha512-8UN/vATSgS2JFuJlMVr51L3eUDz+j1m7Ww63wlvHLKULzCDaVWYzvacCjBTLW/lX/vedI2LBI4Vg+01G9ufsJQ==}
+
+  '@tanstack/query-core@5.90.3':
+    resolution: {integrity: sha512-HtPOnCwmx4dd35PfXU8jjkhwYrsHfuqgC8RCJIwWglmhIUIlzPP0ZcEkDAc+UtAWCiLm7T8rxeEfHZlz3hYMCA==}
+
+  '@tanstack/react-query@5.90.3':
+    resolution: {integrity: sha512-i/LRL6DtuhG6bjGzavIMIVuKKPWx2AnEBIsBfuMm3YoHne0a20nWmsatOCBcVSaT0/8/5YFjNkebHAPLVUSi0Q==}
+    peerDependencies:
+      react: ^18 || ^19
 
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
@@ -6730,6 +6769,13 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+
+  '@tanstack/query-core@5.90.3': {}
+
+  '@tanstack/react-query@5.90.3(react@19.1.0)':
+    dependencies:
+      '@tanstack/query-core': 5.90.3
+      react: 19.1.0
 
   '@tybys/wasm-util@0.10.1':
     dependencies:

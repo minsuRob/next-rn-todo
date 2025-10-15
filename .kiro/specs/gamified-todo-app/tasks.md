@@ -140,29 +140,29 @@
     - 확인 대화상자 구현
     - _요구사항: 3.4, 10.4_
 
-- [ ] 7. 공유 훅 패키지 생성
-  - [ ] 7.1 인증 훅 구현
+- [x] 7. 공유 훅 패키지 생성
+  - [x] 7.1 인증 훅 구현
     - 컨텍스트가 포함된 useAuth 훅 생성
     - useSession 훅 구축
     - useUser 훅 구현
     - _요구사항: 1.3, 1.5_
-  - [ ] 7.2 태스크 관리 훅 구현
+  - [x] 7.2 태스크 관리 훅 구현
     - React Query가 포함된 useTasks 생성
     - useCreateTask 뮤테이션 구축
     - useUpdateTask 뮤테이션 구현
     - 낙관적 업데이트가 포함된 useCompleteTask 생성
     - _요구사항: 2.7, 2.8, 2.9, 9.1_
-  - [ ] 7.3 캐릭터 훅 구현
+  - [x] 7.3 캐릭터 훅 구현
     - useCharacter 훅 생성
     - useLevelUp 훅 구축
     - useEquipment 훅 구현
     - _요구사항: 3.1, 3.2, 3.4, 4.7_
-  - [ ] 7.4 보상 훅 구현
+  - [x] 7.4 보상 훅 구현
     - useRewards 훅 생성
     - usePurchaseReward 뮤테이션 구축
     - useInventory 훅 구현
     - _요구사항: 4.2, 4.3, 4.6_
-  - [ ] 7.5 실시간 훅 구현
+  - [x] 7.5 실시간 훅 구현
     - useRealtimeSubscription 훅 생성
     - 실시간 동기화를 위한 useTaskUpdates 구축
     - useCharacterUpdates 구현
