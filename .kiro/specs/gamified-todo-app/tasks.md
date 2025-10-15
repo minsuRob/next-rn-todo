@@ -19,86 +19,86 @@
     - 검증 헬퍼 구현
     - _요구사항: 2.1, 2.2, 4.2_
 
-- [ ] 3. Supabase 백엔드 인프라 설정
-  - [ ] 3.1 Supabase 프로젝트 및 로컬 개발 환경 초기화
+- [x] 3. Supabase 백엔드 인프라 설정
+  - [x] 3.1 Supabase 프로젝트 및 로컬 개발 환경 초기화
     - Supabase 프로젝트 생성
     - 로컬 Supabase CLI 설정
     - 환경 변수 구성
     - _요구사항: 1.1, 1.3, 9.1_
-  - [ ] 3.2 데이터베이스 스키마 마이그레이션 생성
+  - [x] 3.2 데이터베이스 스키마 마이그레이션 생성
     - profiles, characters, tasks 테이블 생성
     - habit_logs, streaks, rewards, inventory 테이블 생성
     - transactions, challenges, friendships 테이블 생성
     - 성능을 위한 인덱스 추가
     - _요구사항: 2.1, 2.2, 3.1, 4.1, 5.1, 8.1_
-  - [ ] 3.3 Row Level Security 정책 구현
+  - [x] 3.3 Row Level Security 정책 구현
     - 모든 테이블에 대한 RLS 정책 생성
     - 정책 적용 테스트
     - _요구사항: 1.3, 2.8, 9.1_
-  - [ ] 3.4 아바타용 Storage 버킷 설정
+  - [x] 3.4 아바타용 Storage 버킷 설정
     - avatars 버킷 생성
     - 스토리지 정책 구성
     - _요구사항: 1.6, 11.3_
-  - [ ] 3.5 관련 테이블에 대한 Realtime 활성화
+  - [x] 3.5 관련 테이블에 대한 Realtime 활성화
     - tasks, characters, challenges에 대한 Realtime 구성
     - Realtime 인증 정책 설정
     - _요구사항: 9.1, 9.2_
 
-- [ ] 4. 공유 유틸리티 패키지 생성
-  - [ ] 4.1 XP 계산 유틸리티 구현
+- [x] 4. 공유 유틸리티 패키지 생성
+  - [x] 4.1 XP 계산 유틸리티 구현
     - 난이도 기반 calculateXP 함수 생성
     - 레벨업을 위한 calculateRequiredXP 구현
     - 총 XP로부터 calculateLevel 생성
     - 장비의 스탯 보너스 적용
     - _요구사항: 2.3, 3.2, 3.3, 4.7_
-  - [ ] 4.2 날짜 및 시간 헬퍼 생성
+  - [x] 4.2 날짜 및 시간 헬퍼 생성
     - 연속 기록 계산 함수 구현
     - 일일 태스크 리셋 로직 생성
     - 반복 패턴 검증기 구축
     - _요구사항: 5.1, 5.2, 2.5_
-  - [ ] 4.3 골드 계산 유틸리티 구축
+  - [x] 4.3 골드 계산 유틸리티 구축
     - 골드 보상 계산 구현
     - 검증이 포함된 골드 차감 로직 생성
     - _요구사항: 4.1, 4.3_
 
-- [ ] 5. 공유 API 클라이언트 패키지 생성
-  - [ ] 5.1 Supabase 클라이언트 구성 설정
+- [x] 5. 공유 API 클라이언트 패키지 생성
+  - [x] 5.1 Supabase 클라이언트 구성 설정
     - Supabase 클라이언트 팩토리 생성
     - 인증 지속성 구성
     - 에러 처리 래퍼 설정
     - _요구사항: 1.3, 9.1_
-  - [ ] 5.2 인증 API 구현
+  - [x] 5.2 인증 API 구현
     - signUp, signIn, signOut 함수 생성
     - 소셜 인증 메서드 구현
     - 세션 관리 추가
     - _요구사항: 1.1, 1.2, 1.3_
-  - [ ] 5.3 태스크 API 구현
+  - [x] 5.3 태스크 API 구현
     - 필터링이 포함된 getTasks 생성
     - createTask, updateTask, deleteTask 구현
     - XP/골드 보상이 포함된 completeTask 구축
     - _요구사항: 2.1, 2.2, 2.8, 2.9_
-  - [ ] 5.4 캐릭터 API 구현
+  - [x] 5.4 캐릭터 API 구현
     - getCharacter 함수 생성
     - 진행을 위한 updateCharacter 구축
     - equipItem 및 unequipItem 구현
     - _요구사항: 3.1, 3.2, 3.4, 4.7_
-  - [ ] 5.5 보상 API 구현
+  - [x] 5.5 보상 API 구현
     - getRewards 함수 생성
     - 골드 검증이 포함된 purchaseReward 구축
     - createCustomReward 구현
     - redeemReward 함수 추가
     - _요구사항: 4.2, 4.3, 4.4, 4.5_
-  - [ ] 5.6 연속 기록 및 습관 API 구현
+  - [x] 5.6 연속 기록 및 습관 API 구현
     - getStreaks 함수 생성
     - 태스크 완료 시 updateStreak 구축
     - 긍정/부정 추적을 위한 logHabit 구현
     - _요구사항: 5.1, 5.2, 5.6, 5.7_
-  - [ ] 5.7 분석 API 구현
+  - [x] 5.7 분석 API 구현
     - getXPHistory 함수 생성
     - getTaskStats 구축
     - getStreakData 구현
     - _요구사항: 6.4, 6.5_
-  - [ ] 5.8 소셜 기능 API 구현
+  - [x] 5.8 소셜 기능 API 구현
     - 친구 요청 함수 생성
     - 챌린지 CRUD 작업 구축
     - 리더보드 쿼리 구현
