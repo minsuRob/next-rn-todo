@@ -1,429 +1,429 @@
-# Implementation Plan
+# 구현 계획
 
-- [ ] 1. Setup monorepo infrastructure and shared packages
-  - Initialize Turborepo workspace with proper package dependencies
-  - Configure TypeScript base config with path aliases
-  - Setup ESLint and Prettier shared configs
-  - Configure Turbo pipeline for build, dev, lint, and test tasks
-  - _Requirements: 12.1, 12.2_
+- [ ] 1. 모노레포 인프라 및 공유 패키지 설정
+  - 적절한 패키지 의존성으로 Turborepo 워크스페이스 초기화
+  - 경로 별칭이 포함된 TypeScript 기본 설정 구성
+  - ESLint 및 Prettier 공유 설정 구성
+  - build, dev, lint, test 작업을 위한 Turbo 파이프라인 구성
+  - _요구사항: 12.1, 12.2_
 
-- [ ] 2. Create shared types and schemas package
-  - [ ] 2.1 Define core TypeScript types and interfaces
-    - Create database types (Task, Character, Reward, Streak, etc.)
-    - Define API request/response types
-    - Create utility types for common patterns
-    - _Requirements: 2.1, 2.2, 2.3, 3.1, 4.1_
-  - [ ] 2.2 Implement Zod validation schemas
-    - Create schemas for task creation and updates
-    - Define character and reward schemas
-    - Implement validation helpers
-    - _Requirements: 2.1, 2.2, 4.2_
+- [ ] 2. 공유 타입 및 스키마 패키지 생성
+  - [ ] 2.1 핵심 TypeScript 타입 및 인터페이스 정의
+    - 데이터베이스 타입 생성 (Task, Character, Reward, Streak 등)
+    - API 요청/응답 타입 정의
+    - 공통 패턴을 위한 유틸리티 타입 생성
+    - _요구사항: 2.1, 2.2, 2.3, 3.1, 4.1_
+  - [ ] 2.2 Zod 검증 스키마 구현
+    - 태스크 생성 및 업데이트를 위한 스키마 생성
+    - 캐릭터 및 보상 스키마 정의
+    - 검증 헬퍼 구현
+    - _요구사항: 2.1, 2.2, 4.2_
 
-- [ ] 3. Setup Supabase backend infrastructure
-  - [ ] 3.1 Initialize Supabase project and local development
-    - Create Supabase project
-    - Setup local Supabase CLI
-    - Configure environment variables
-    - _Requirements: 1.1, 1.3, 9.1_
-  - [ ] 3.2 Create database schema migration
-    - Create profiles, characters, tasks tables
-    - Create habit_logs, streaks, rewards, inventory tables
-    - Create transactions, challenges, friendships tables
-    - Add indexes for performance
-    - _Requirements: 2.1, 2.2, 3.1, 4.1, 5.1, 8.1_
-  - [ ] 3.3 Implement Row Level Security policies
-    - Create RLS policies for all tables
-    - Test policy enforcement
-    - _Requirements: 1.3, 2.8, 9.1_
-  - [ ] 3.4 Setup Storage bucket for avatars
-    - Create avatars bucket
-    - Configure storage policies
-    - _Requirements: 1.6, 11.3_
-  - [ ] 3.5 Enable Realtime for relevant tables
-    - Configure Realtime for tasks, characters, challenges
-    - Setup Realtime authorization policies
-    - _Requirements: 9.1, 9.2_
+- [ ] 3. Supabase 백엔드 인프라 설정
+  - [ ] 3.1 Supabase 프로젝트 및 로컬 개발 환경 초기화
+    - Supabase 프로젝트 생성
+    - 로컬 Supabase CLI 설정
+    - 환경 변수 구성
+    - _요구사항: 1.1, 1.3, 9.1_
+  - [ ] 3.2 데이터베이스 스키마 마이그레이션 생성
+    - profiles, characters, tasks 테이블 생성
+    - habit_logs, streaks, rewards, inventory 테이블 생성
+    - transactions, challenges, friendships 테이블 생성
+    - 성능을 위한 인덱스 추가
+    - _요구사항: 2.1, 2.2, 3.1, 4.1, 5.1, 8.1_
+  - [ ] 3.3 Row Level Security 정책 구현
+    - 모든 테이블에 대한 RLS 정책 생성
+    - 정책 적용 테스트
+    - _요구사항: 1.3, 2.8, 9.1_
+  - [ ] 3.4 아바타용 Storage 버킷 설정
+    - avatars 버킷 생성
+    - 스토리지 정책 구성
+    - _요구사항: 1.6, 11.3_
+  - [ ] 3.5 관련 테이블에 대한 Realtime 활성화
+    - tasks, characters, challenges에 대한 Realtime 구성
+    - Realtime 인증 정책 설정
+    - _요구사항: 9.1, 9.2_
 
-- [ ] 4. Create shared utilities package
-  - [ ] 4.1 Implement XP calculation utilities
-    - Create calculateXP function based on difficulty
-    - Implement calculateRequiredXP for leveling
-    - Create calculateLevel from total XP
-    - Apply stat bonuses from equipment
-    - _Requirements: 2.3, 3.2, 3.3, 4.7_
-  - [ ] 4.2 Create date and time helpers
-    - Implement streak calculation functions
-    - Create daily task reset logic
-    - Build repeat pattern validators
-    - _Requirements: 5.1, 5.2, 2.5_
-  - [ ] 4.3 Build gold calculation utilities
-    - Implement gold reward calculation
-    - Create gold deduction logic with validation
-    - _Requirements: 4.1, 4.3_
+- [ ] 4. 공유 유틸리티 패키지 생성
+  - [ ] 4.1 XP 계산 유틸리티 구현
+    - 난이도 기반 calculateXP 함수 생성
+    - 레벨업을 위한 calculateRequiredXP 구현
+    - 총 XP로부터 calculateLevel 생성
+    - 장비의 스탯 보너스 적용
+    - _요구사항: 2.3, 3.2, 3.3, 4.7_
+  - [ ] 4.2 날짜 및 시간 헬퍼 생성
+    - 연속 기록 계산 함수 구현
+    - 일일 태스크 리셋 로직 생성
+    - 반복 패턴 검증기 구축
+    - _요구사항: 5.1, 5.2, 2.5_
+  - [ ] 4.3 골드 계산 유틸리티 구축
+    - 골드 보상 계산 구현
+    - 검증이 포함된 골드 차감 로직 생성
+    - _요구사항: 4.1, 4.3_
 
-- [ ] 5. Create shared API client package
-  - [ ] 5.1 Setup Supabase client configuration
-    - Create Supabase client factory
-    - Configure auth persistence
-    - Setup error handling wrapper
-    - _Requirements: 1.3, 9.1_
-  - [ ] 5.2 Implement authentication API
-    - Create signUp, signIn, signOut functions
-    - Implement social auth methods
-    - Add session management
-    - _Requirements: 1.1, 1.2, 1.3_
-  - [ ] 5.3 Implement tasks API
-    - Create getTasks with filtering
-    - Implement createTask, updateTask, deleteTask
-    - Build completeTask with XP/gold rewards
-    - _Requirements: 2.1, 2.2, 2.8, 2.9_
-  - [ ] 5.4 Implement character API
-    - Create getCharacter function
-    - Build updateCharacter for progression
-    - Implement equipItem and unequipItem
-    - _Requirements: 3.1, 3.2, 3.4, 4.7_
-  - [ ] 5.5 Implement rewards API
-    - Create getRewards function
-    - Build purchaseReward with gold validation
-    - Implement createCustomReward
-    - Add redeemReward function
-    - _Requirements: 4.2, 4.3, 4.4, 4.5_
-  - [ ] 5.6 Implement streaks and habits API
-    - Create getStreaks function
-    - Build updateStreak on task completion
-    - Implement logHabit for positive/negative tracking
-    - _Requirements: 5.1, 5.2, 5.6, 5.7_
-  - [ ] 5.7 Implement analytics API
-    - Create getXPHistory function
-    - Build getTaskStats
-    - Implement getStreakData
-    - _Requirements: 6.4, 6.5_
-  - [ ] 5.8 Implement social features API
-    - Create friend request functions
-    - Build challenge CRUD operations
-    - Implement leaderboard queries
-    - _Requirements: 8.1, 8.2, 8.4, 8.6_
+- [ ] 5. 공유 API 클라이언트 패키지 생성
+  - [ ] 5.1 Supabase 클라이언트 구성 설정
+    - Supabase 클라이언트 팩토리 생성
+    - 인증 지속성 구성
+    - 에러 처리 래퍼 설정
+    - _요구사항: 1.3, 9.1_
+  - [ ] 5.2 인증 API 구현
+    - signUp, signIn, signOut 함수 생성
+    - 소셜 인증 메서드 구현
+    - 세션 관리 추가
+    - _요구사항: 1.1, 1.2, 1.3_
+  - [ ] 5.3 태스크 API 구현
+    - 필터링이 포함된 getTasks 생성
+    - createTask, updateTask, deleteTask 구현
+    - XP/골드 보상이 포함된 completeTask 구축
+    - _요구사항: 2.1, 2.2, 2.8, 2.9_
+  - [ ] 5.4 캐릭터 API 구현
+    - getCharacter 함수 생성
+    - 진행을 위한 updateCharacter 구축
+    - equipItem 및 unequipItem 구현
+    - _요구사항: 3.1, 3.2, 3.4, 4.7_
+  - [ ] 5.5 보상 API 구현
+    - getRewards 함수 생성
+    - 골드 검증이 포함된 purchaseReward 구축
+    - createCustomReward 구현
+    - redeemReward 함수 추가
+    - _요구사항: 4.2, 4.3, 4.4, 4.5_
+  - [ ] 5.6 연속 기록 및 습관 API 구현
+    - getStreaks 함수 생성
+    - 태스크 완료 시 updateStreak 구축
+    - 긍정/부정 추적을 위한 logHabit 구현
+    - _요구사항: 5.1, 5.2, 5.6, 5.7_
+  - [ ] 5.7 분석 API 구현
+    - getXPHistory 함수 생성
+    - getTaskStats 구축
+    - getStreakData 구현
+    - _요구사항: 6.4, 6.5_
+  - [ ] 5.8 소셜 기능 API 구현
+    - 친구 요청 함수 생성
+    - 챌린지 CRUD 작업 구축
+    - 리더보드 쿼리 구현
+    - _요구사항: 8.1, 8.2, 8.4, 8.6_
 
-- [ ] 6. Create shared UI components package
-  - [ ] 6.1 Setup React Native component library structure
-    - Configure package for React Native and React Native Web
-    - Setup theme configuration
-    - Create component index exports
-    - _Requirements: 10.4, 10.5, 11.1_
-  - [ ] 6.2 Implement core input components
-    - Create Button component with variants
-    - Build Input component with validation
-    - Implement Select dropdown
-    - Create Checkbox and Switch
-    - _Requirements: 2.1, 10.1, 10.2_
-  - [ ] 6.3 Implement layout components
-    - Create Container with responsive breakpoints
-    - Build Stack for flex layouts
-    - Implement Grid component
-    - Create Spacer for consistent spacing
-    - _Requirements: 10.1, 10.8_
-  - [ ] 6.4 Implement feedback components
-    - Create Toast notification system
-    - Build Spinner loading indicator
-    - Implement Skeleton loaders
-    - Create EmptyState component
-    - _Requirements: 6.6, 10.1_
-  - [ ] 6.5 Implement display components
-    - Create Card container
-    - Build Avatar component
-    - Implement Badge for counts
-    - Create ProgressBar for XP/HP
-    - _Requirements: 3.5, 6.2, 6.3_
-  - [ ] 6.6 Implement modal components
-    - Create Modal overlay
-    - Build BottomSheet for mobile
-    - Implement confirmation dialogs
-    - _Requirements: 3.4, 10.4_
+- [ ] 6. 공유 UI 컴포넌트 패키지 생성
+  - [ ] 6.1 React Native 컴포넌트 라이브러리 구조 설정
+    - React Native 및 React Native Web용 패키지 구성
+    - 테마 구성 설정
+    - 컴포넌트 인덱스 내보내기 생성
+    - _요구사항: 10.4, 10.5, 11.1_
+  - [ ] 6.2 핵심 입력 컴포넌트 구현
+    - 변형이 포함된 Button 컴포넌트 생성
+    - 검증이 포함된 Input 컴포넌트 구축
+    - Select 드롭다운 구현
+    - Checkbox 및 Switch 생성
+    - _요구사항: 2.1, 10.1, 10.2_
+  - [ ] 6.3 레이아웃 컴포넌트 구현
+    - 반응형 브레이크포인트가 포함된 Container 생성
+    - 플렉스 레이아웃을 위한 Stack 구축
+    - Grid 컴포넌트 구현
+    - 일관된 간격을 위한 Spacer 생성
+    - _요구사항: 10.1, 10.8_
+  - [ ] 6.4 피드백 컴포넌트 구현
+    - Toast 알림 시스템 생성
+    - Spinner 로딩 인디케이터 구축
+    - Skeleton 로더 구현
+    - EmptyState 컴포넌트 생성
+    - _요구사항: 6.6, 10.1_
+  - [ ] 6.5 디스플레이 컴포넌트 구현
+    - Card 컨테이너 생성
+    - Avatar 컴포넌트 구축
+    - 카운트를 위한 Badge 구현
+    - XP/HP를 위한 ProgressBar 생성
+    - _요구사항: 3.5, 6.2, 6.3_
+  - [ ] 6.6 모달 컴포넌트 구현
+    - Modal 오버레이 생성
+    - 모바일용 BottomSheet 구축
+    - 확인 대화상자 구현
+    - _요구사항: 3.4, 10.4_
 
-- [ ] 7. Create shared hooks package
-  - [ ] 7.1 Implement authentication hooks
-    - Create useAuth hook with context
-    - Build useSession hook
-    - Implement useUser hook
-    - _Requirements: 1.3, 1.5_
-  - [ ] 7.2 Implement task management hooks
-    - Create useTasks with React Query
-    - Build useCreateTask mutation
-    - Implement useUpdateTask mutation
-    - Create useCompleteTask with optimistic updates
-    - _Requirements: 2.7, 2.8, 2.9, 9.1_
-  - [ ] 7.3 Implement character hooks
-    - Create useCharacter hook
-    - Build useLevelUp hook
-    - Implement useEquipment hook
-    - _Requirements: 3.1, 3.2, 3.4, 4.7_
-  - [ ] 7.4 Implement rewards hooks
-    - Create useRewards hook
-    - Build usePurchaseReward mutation
-    - Implement useInventory hook
-    - _Requirements: 4.2, 4.3, 4.6_
-  - [ ] 7.5 Implement real-time hooks
-    - Create useRealtimeSubscription hook
-    - Build useTaskUpdates for live sync
-    - Implement useCharacterUpdates
-    - _Requirements: 9.1, 9.2, 9.6_
+- [ ] 7. 공유 훅 패키지 생성
+  - [ ] 7.1 인증 훅 구현
+    - 컨텍스트가 포함된 useAuth 훅 생성
+    - useSession 훅 구축
+    - useUser 훅 구현
+    - _요구사항: 1.3, 1.5_
+  - [ ] 7.2 태스크 관리 훅 구현
+    - React Query가 포함된 useTasks 생성
+    - useCreateTask 뮤테이션 구축
+    - useUpdateTask 뮤테이션 구현
+    - 낙관적 업데이트가 포함된 useCompleteTask 생성
+    - _요구사항: 2.7, 2.8, 2.9, 9.1_
+  - [ ] 7.3 캐릭터 훅 구현
+    - useCharacter 훅 생성
+    - useLevelUp 훅 구축
+    - useEquipment 훅 구현
+    - _요구사항: 3.1, 3.2, 3.4, 4.7_
+  - [ ] 7.4 보상 훅 구현
+    - useRewards 훅 생성
+    - usePurchaseReward 뮤테이션 구축
+    - useInventory 훅 구현
+    - _요구사항: 4.2, 4.3, 4.6_
+  - [ ] 7.5 실시간 훅 구현
+    - useRealtimeSubscription 훅 생성
+    - 실시간 동기화를 위한 useTaskUpdates 구축
+    - useCharacterUpdates 구현
+    - _요구사항: 9.1, 9.2, 9.6_
 
-- [ ] 8. Setup Next.js web application
-  - [ ] 8.1 Initialize Next.js with App Router
-    - Create Next.js app with TypeScript
-    - Configure next.config.js for React Native Web
-    - Setup Tailwind CSS
-    - Configure environment variables
-    - _Requirements: 10.1, 10.5, 12.1_
-  - [ ] 8.2 Implement authentication pages
-    - Create sign-in page with email/password
-    - Build sign-up page with validation
-    - Implement social auth buttons
-    - Add password reset flow
-    - _Requirements: 1.1, 1.2, 1.4_
-  - [ ] 8.3 Create dashboard layout
-    - Build main layout with navigation
-    - Implement responsive sidebar
-    - Create header with user menu
-    - _Requirements: 6.1, 10.1_
-  - [ ] 8.4 Implement dashboard page
-    - Create character stats display
-    - Build today's tasks section
-    - Implement quick actions
-    - Add streak indicators
-    - _Requirements: 6.1, 6.2, 6.3_
-  - [ ] 8.5 Implement tasks page
-    - Create task list with filtering
-    - Build task creation form
-    - Implement task editing
-    - Add task completion with animations
-    - _Requirements: 2.1, 2.2, 2.7, 2.8, 2.9_
-  - [ ] 8.6 Implement character page
-    - Create character display with avatar
-    - Build equipment management
-    - Implement level progress visualization
-    - _Requirements: 3.1, 3.5, 4.7, 11.3_
-  - [ ] 8.7 Implement shop and inventory pages
-    - Create shop with reward grid
-    - Build purchase flow
-    - Implement inventory display
-    - Add custom reward creation
-    - _Requirements: 4.2, 4.3, 4.4, 4.6_
-  - [ ] 8.8 Implement analytics page
-    - Create XP history chart
-    - Build task completion stats
-    - Implement streak calendar heatmap
-    - Add weekly summary
-    - _Requirements: 6.4, 6.5_
-  - [ ] 8.9 Implement settings page
-    - Create theme selector
-    - Build notification preferences
-    - Implement avatar customization
-    - _Requirements: 7.5, 11.1, 11.2, 11.6_
+- [ ] 8. Next.js 웹 애플리케이션 설정
+  - [ ] 8.1 App Router로 Next.js 초기화
+    - TypeScript로 Next.js 앱 생성
+    - React Native Web을 위한 next.config.js 구성
+    - Tailwind CSS 설정
+    - 환경 변수 구성
+    - _요구사항: 10.1, 10.5, 12.1_
+  - [ ] 8.2 인증 페이지 구현
+    - 이메일/비밀번호로 로그인 페이지 생성
+    - 검증이 포함된 회원가입 페이지 구축
+    - 소셜 인증 버튼 구현
+    - 비밀번호 재설정 플로우 추가
+    - _요구사항: 1.1, 1.2, 1.4_
+  - [ ] 8.3 대시보드 레이아웃 생성
+    - 네비게이션이 포함된 메인 레이아웃 구축
+    - 반응형 사이드바 구현
+    - 사용자 메뉴가 포함된 헤더 생성
+    - _요구사항: 6.1, 10.1_
+  - [ ] 8.4 대시보드 페이지 구현
+    - 캐릭터 스탯 디스플레이 생성
+    - 오늘의 태스크 섹션 구축
+    - 빠른 작업 구현
+    - 연속 기록 인디케이터 추가
+    - _요구사항: 6.1, 6.2, 6.3_
+  - [ ] 8.5 태스크 페이지 구현
+    - 필터링이 포함된 태스크 목록 생성
+    - 태스크 생성 폼 구축
+    - 태스크 편집 구현
+    - 애니메이션이 포함된 태스크 완료 추가
+    - _요구사항: 2.1, 2.2, 2.7, 2.8, 2.9_
+  - [ ] 8.6 캐릭터 페이지 구현
+    - 아바타가 포함된 캐릭터 디스플레이 생성
+    - 장비 관리 구축
+    - 레벨 진행 시각화 구현
+    - _요구사항: 3.1, 3.5, 4.7, 11.3_
+  - [ ] 8.7 상점 및 인벤토리 페이지 구현
+    - 보상 그리드가 포함된 상점 생성
+    - 구매 플로우 구축
+    - 인벤토리 디스플레이 구현
+    - 커스텀 보상 생성 추가
+    - _요구사항: 4.2, 4.3, 4.4, 4.6_
+  - [ ] 8.8 분석 페이지 구현
+    - XP 히스토리 차트 생성
+    - 태스크 완료 통계 구축
+    - 연속 기록 캘린더 히트맵 구현
+    - 주간 요약 추가
+    - _요구사항: 6.4, 6.5_
+  - [ ] 8.9 설정 페이지 구현
+    - 테마 선택기 생성
+    - 알림 설정 구축
+    - 아바타 커스터마이징 구현
+    - _요구사항: 7.5, 11.1, 11.2, 11.6_
 
-- [ ] 9. Setup React Native mobile application
-  - [ ] 9.1 Initialize Expo project
-    - Create Expo app with TypeScript
-    - Configure Expo Router
-    - Setup environment variables
-    - Configure app.json
-    - _Requirements: 10.4, 12.1_
-  - [ ] 9.2 Implement authentication screens
-    - Create sign-in screen
-    - Build sign-up screen
-    - Implement social auth
-    - _Requirements: 1.1, 1.2_
-  - [ ] 9.3 Create tab navigation structure
-    - Build bottom tab navigator
-    - Implement dashboard tab
-    - Create tasks tab
-    - Add character tab
-    - Add shop tab
-    - _Requirements: 6.1, 10.4_
-  - [ ] 9.4 Implement dashboard screen
-    - Create character card
-    - Build today's tasks list
-    - Implement quick actions
-    - _Requirements: 6.1, 6.2, 10.4_
-  - [ ] 9.5 Implement tasks screen
-    - Create virtualized task list
-    - Build task creation modal
-    - Implement swipe actions
-    - Add task completion animations
-    - _Requirements: 2.1, 2.7, 2.8, 2.9, 12.2_
-  - [ ] 9.6 Implement character screen
-    - Create character display
-    - Build equipment management
-    - Implement avatar customization
-    - _Requirements: 3.1, 3.5, 4.7, 11.3, 11.4_
-  - [ ] 9.7 Implement shop and inventory screens
-    - Create shop grid
-    - Build purchase flow
-    - Implement inventory display
-    - _Requirements: 4.2, 4.3, 4.6_
-  - [ ] 9.8 Implement analytics screen
-    - Create charts with react-native-chart-kit
-    - Build streak calendar
-    - Implement stats cards
-    - _Requirements: 6.4, 6.5_
-  - [ ] 9.9 Implement settings screen
-    - Create theme selector
-    - Build notification settings
-    - Implement avatar customization
-    - _Requirements: 7.5, 11.1, 11.2_
+- [ ] 9. React Native 모바일 애플리케이션 설정
+  - [ ] 9.1 Expo 프로젝트 초기화
+    - TypeScript로 Expo 앱 생성
+    - Expo Router 구성
+    - 환경 변수 설정
+    - app.json 구성
+    - _요구사항: 10.4, 12.1_
+  - [ ] 9.2 인증 스크린 구현
+    - 로그인 스크린 생성
+    - 회원가입 스크린 구축
+    - 소셜 인증 구현
+    - _요구사항: 1.1, 1.2_
+  - [ ] 9.3 탭 네비게이션 구조 생성
+    - 하단 탭 네비게이터 구축
+    - 대시보드 탭 구현
+    - 태스크 탭 생성
+    - 캐릭터 탭 추가
+    - 상점 탭 추가
+    - _요구사항: 6.1, 10.4_
+  - [ ] 9.4 대시보드 스크린 구현
+    - 캐릭터 카드 생성
+    - 오늘의 태스크 목록 구축
+    - 빠른 작업 구현
+    - _요구사항: 6.1, 6.2, 10.4_
+  - [ ] 9.5 태스크 스크린 구현
+    - 가상화된 태스크 목록 생성
+    - 태스크 생성 모달 구축
+    - 스와이프 액션 구현
+    - 태스크 완료 애니메이션 추가
+    - _요구사항: 2.1, 2.7, 2.8, 2.9, 12.2_
+  - [ ] 9.6 캐릭터 스크린 구현
+    - 캐릭터 디스플레이 생성
+    - 장비 관리 구축
+    - 아바타 커스터마이징 구현
+    - _요구사항: 3.1, 3.5, 4.7, 11.3, 11.4_
+  - [ ] 9.7 상점 및 인벤토리 스크린 구현
+    - 상점 그리드 생성
+    - 구매 플로우 구축
+    - 인벤토리 디스플레이 구현
+    - _요구사항: 4.2, 4.3, 4.6_
+  - [ ] 9.8 분석 스크린 구현
+    - react-native-chart-kit으로 차트 생성
+    - 연속 기록 캘린더 구축
+    - 통계 카드 구현
+    - _요구사항: 6.4, 6.5_
+  - [ ] 9.9 설정 스크린 구현
+    - 테마 선택기 생성
+    - 알림 설정 구축
+    - 아바타 커스터마이징 구현
+    - _요구사항: 7.5, 11.1, 11.2_
 
-- [ ] 10. Implement character progression system
-  - [ ] 10.1 Create level-up logic
-    - Implement XP accumulation on task completion
-    - Build level-up detection
-    - Create level-up modal with celebration
-    - Award bonus gold on level-up
-    - _Requirements: 2.9, 3.1, 3.2, 3.3, 3.4_
-  - [ ] 10.2 Implement HP system
-    - Create HP deduction on missed dailies
-    - Build HP recovery mechanisms
-    - Implement defeat state handling
-    - _Requirements: 3.6, 3.7_
-  - [ ] 10.3 Create stat bonuses system
-    - Implement equipment stat bonuses
-    - Apply multipliers to XP and gold
-    - Update character stats display
-    - _Requirements: 4.7_
+- [ ] 10. 캐릭터 진행 시스템 구현
+  - [ ] 10.1 레벨업 로직 생성
+    - 태스크 완료 시 XP 누적 구현
+    - 레벨업 감지 구축
+    - 축하 애니메이션이 포함된 레벨업 모달 생성
+    - 레벨업 시 보너스 골드 지급
+    - _요구사항: 2.9, 3.1, 3.2, 3.3, 3.4_
+  - [ ] 10.2 HP 시스템 구현
+    - 일일 태스크 미완료 시 HP 차감 생성
+    - HP 회복 메커니즘 구축
+    - 패배 상태 처리 구현
+    - _요구사항: 3.6, 3.7_
+  - [ ] 10.3 스탯 보너스 시스템 생성
+    - 장비 스탯 보너스 구현
+    - XP 및 골드에 배율 적용
+    - 캐릭터 스탯 디스플레이 업데이트
+    - _요구사항: 4.7_
 
-- [ ] 11. Implement streak and habit tracking
-  - [ ] 11.1 Create streak management
-    - Implement streak increment on daily completion
-    - Build streak reset on missed day
-    - Create streak milestone detection
-    - Award bonus XP for milestones
-    - _Requirements: 5.1, 5.2, 5.4_
-  - [ ] 11.2 Implement habit strength system
-    - Create habit strength calculation
-    - Build positive/negative tracking
-    - Implement visual strength indicator
-    - _Requirements: 5.6, 5.7_
-  - [ ] 11.3 Create habit history visualization
-    - Build calendar heatmap component
-    - Implement completion history display
-    - _Requirements: 5.5_
+- [ ] 11. 연속 기록 및 습관 추적 구현
+  - [ ] 11.1 연속 기록 관리 생성
+    - 일일 완료 시 연속 기록 증가 구현
+    - 미완료 시 연속 기록 리셋 구축
+    - 연속 기록 마일스톤 감지 생성
+    - 마일스톤 달성 시 보너스 XP 지급
+    - _요구사항: 5.1, 5.2, 5.4_
+  - [ ] 11.2 습관 강도 시스템 구현
+    - 습관 강도 계산 생성
+    - 긍정/부정 추적 구축
+    - 시각적 강도 인디케이터 구현
+    - _요구사항: 5.6, 5.7_
+  - [ ] 11.3 습관 히스토리 시각화 생성
+    - 캘린더 히트맵 컴포넌트 구축
+    - 완료 히스토리 디스플레이 구현
+    - _요구사항: 5.5_
 
-- [ ] 12. Implement notification system
-  - [ ] 12.1 Setup push notifications
-    - Configure Expo notifications
-    - Request notification permissions
-    - Setup notification handlers
-    - _Requirements: 7.5_
-  - [ ] 12.2 Implement reminder scheduling
-    - Create reminder scheduling logic
-    - Build due date reminders
-    - Implement daily task reminders
-    - Add end-of-day warnings
-    - _Requirements: 7.1, 7.2, 7.3, 7.4_
-  - [ ] 12.3 Create notification preferences
-    - Build notification settings UI
-    - Implement enable/disable toggles
-    - Create time preference selectors
-    - _Requirements: 7.6, 7.7_
+- [ ] 12. 알림 시스템 구현
+  - [ ] 12.1 푸시 알림 설정
+    - Expo 알림 구성
+    - 알림 권한 요청
+    - 알림 핸들러 설정
+    - _요구사항: 7.5_
+  - [ ] 12.2 리마인더 스케줄링 구현
+    - 리마인더 스케줄링 로직 생성
+    - 마감일 리마인더 구축
+    - 일일 태스크 리마인더 구현
+    - 하루 종료 경고 추가
+    - _요구사항: 7.1, 7.2, 7.3, 7.4_
+  - [ ] 12.3 알림 설정 생성
+    - 알림 설정 UI 구축
+    - 활성화/비활성화 토글 구현
+    - 시간 설정 선택기 생성
+    - _요구사항: 7.6, 7.7_
 
-- [ ] 13. Implement social features
-  - [ ] 13.1 Create friend system
-    - Implement friend search
-    - Build friend request flow
-    - Create friends list display
-    - _Requirements: 8.1, 8.2, 8.3_
-  - [ ] 13.2 Implement challenge system
-    - Create challenge creation flow
-    - Build challenge join functionality
-    - Implement challenge leaderboard
-    - Create challenge completion rewards
-    - _Requirements: 8.4, 8.5, 8.6, 8.7, 8.8_
+- [ ] 13. 소셜 기능 구현
+  - [ ] 13.1 친구 시스템 생성
+    - 친구 검색 구현
+    - 친구 요청 플로우 구축
+    - 친구 목록 디스플레이 생성
+    - _요구사항: 8.1, 8.2, 8.3_
+  - [ ] 13.2 챌린지 시스템 구현
+    - 챌린지 생성 플로우 생성
+    - 챌린지 참여 기능 구축
+    - 챌린지 리더보드 구현
+    - 챌린지 완료 보상 생성
+    - _요구사항: 8.4, 8.5, 8.6, 8.7, 8.8_
 
-- [ ] 14. Implement offline support and sync
-  - [ ] 14.1 Setup local storage
-    - Configure AsyncStorage for mobile
-    - Setup localStorage for web
-    - Implement data caching strategy
-    - _Requirements: 9.2, 9.3_
-  - [ ] 14.2 Implement offline queue
-    - Create mutation queue for offline changes
-    - Build sync logic on reconnection
-    - Implement conflict resolution
-    - _Requirements: 9.3, 9.4, 9.5_
-  - [ ] 14.3 Create sync status indicator
-    - Build sync status component
-    - Implement connection monitoring
-    - _Requirements: 9.6_
+- [ ] 14. 오프라인 지원 및 동기화 구현
+  - [ ] 14.1 로컬 스토리지 설정
+    - 모바일용 AsyncStorage 구성
+    - 웹용 localStorage 설정
+    - 데이터 캐싱 전략 구현
+    - _요구사항: 9.2, 9.3_
+  - [ ] 14.2 오프라인 큐 구현
+    - 오프라인 변경사항을 위한 뮤테이션 큐 생성
+    - 재연결 시 동기화 로직 구축
+    - 충돌 해결 구현
+    - _요구사항: 9.3, 9.4, 9.5_
+  - [ ] 14.3 동기화 상태 인디케이터 생성
+    - 동기화 상태 컴포넌트 구축
+    - 연결 모니터링 구현
+    - _요구사항: 9.6_
 
-- [ ] 15. Implement theme and customization
-  - [ ] 15.1 Create theme system
-    - Build theme configuration
-    - Implement theme switching
-    - Create light and dark themes
-    - Add fantasy and cyberpunk themes
-    - _Requirements: 11.1, 11.2_
-  - [ ] 15.2 Implement avatar customization
-    - Create avatar editor
-    - Build hairstyle selector
-    - Implement skin tone selector
-    - Add accessory management
-    - _Requirements: 11.3, 11.4_
-  - [ ] 15.3 Implement character equipment display
-    - Create equipped items visualization
-    - Build visual effects for equipment
-    - _Requirements: 11.5_
+- [ ] 15. 테마 및 커스터마이징 구현
+  - [ ] 15.1 테마 시스템 생성
+    - 테마 구성 구축
+    - 테마 전환 구현
+    - 라이트 및 다크 테마 생성
+    - 판타지 및 사이버펑크 테마 추가
+    - _요구사항: 11.1, 11.2_
+  - [ ] 15.2 아바타 커스터마이징 구현
+    - 아바타 에디터 생성
+    - 헤어스타일 선택기 구축
+    - 피부톤 선택기 구현
+    - 액세서리 관리 추가
+    - _요구사항: 11.3, 11.4_
+  - [ ] 15.3 캐릭터 장비 디스플레이 구현
+    - 장착된 아이템 시각화 생성
+    - 장비 시각 효과 구축
+    - _요구사항: 11.5_
 
-- [ ] 16. Implement performance optimizations
-  - [ ] 16.1 Optimize web performance
-    - Implement code splitting
-    - Add image optimization
-    - Setup React Query caching
-    - Implement lazy loading
-    - _Requirements: 12.1, 12.2_
-  - [ ] 16.2 Optimize mobile performance
-    - Implement FlashList for task lists
-    - Add React Native Reanimated animations
-    - Setup image caching
-    - _Requirements: 12.3, 12.4_
-  - [ ] 16.3 Optimize database queries
-    - Implement pagination for large lists
-    - Add query result caching
-    - Optimize indexes
-    - _Requirements: 12.2, 12.5, 12.6_
+- [ ] 16. 성능 최적화 구현
+  - [ ] 16.1 웹 성능 최적화
+    - 코드 스플리팅 구현
+    - 이미지 최적화 추가
+    - React Query 캐싱 설정
+    - 지연 로딩 구현
+    - _요구사항: 12.1, 12.2_
+  - [ ] 16.2 모바일 성능 최적화
+    - 태스크 목록에 FlashList 구현
+    - React Native Reanimated 애니메이션 추가
+    - 이미지 캐싱 설정
+    - _요구사항: 12.3, 12.4_
+  - [ ] 16.3 데이터베이스 쿼리 최적화
+    - 대용량 목록에 페이지네이션 구현
+    - 쿼리 결과 캐싱 추가
+    - 인덱스 최적화
+    - _요구사항: 12.2, 12.5, 12.6_
 
-- [ ] 17. Implement accessibility features
-  - [ ] 17.1 Add keyboard navigation
-    - Implement focus management
-    - Create keyboard shortcuts
-    - _Requirements: 10.2_
-  - [ ] 17.2 Add screen reader support
-    - Implement ARIA labels
-    - Create semantic HTML structure
-    - Add accessibility hints for mobile
-    - _Requirements: 10.3_
-  - [ ] 17.3 Implement theme preferences
-    - Add reduced motion support
-    - Implement high contrast mode
-    - Support system theme preferences
-    - _Requirements: 10.6, 10.7, 10.8_
+- [ ] 17. 접근성 기능 구현
+  - [ ] 17.1 키보드 네비게이션 추가
+    - 포커스 관리 구현
+    - 키보드 단축키 생성
+    - _요구사항: 10.2_
+  - [ ] 17.2 스크린 리더 지원 추가
+    - ARIA 레이블 구현
+    - 시맨틱 HTML 구조 생성
+    - 모바일용 접근성 힌트 추가
+    - _요구사항: 10.3_
+  - [ ] 17.3 테마 설정 구현
+    - 모션 감소 지원 추가
+    - 고대비 모드 구현
+    - 시스템 테마 설정 지원
+    - _요구사항: 10.6, 10.7, 10.8_
 
-- [ ] 18. Setup deployment and CI/CD
-  - [ ] 18.1 Configure Vercel deployment
-    - Setup Vercel project
-    - Configure environment variables
-    - Setup preview deployments
-    - _Requirements: 12.7_
-  - [ ] 18.2 Configure mobile app deployment
-    - Setup EAS Build
-    - Configure app signing
-    - Create build profiles
-    - _Requirements: 12.7_
-  - [ ] 18.3 Setup CI/CD pipeline
-    - Create GitHub Actions workflow
-    - Add automated testing
-    - Implement automated deployments
-    - _Requirements: 12.7_
-  - [ ] 18.4 Configure monitoring
-    - Setup error tracking
-    - Implement analytics
-    - Create performance monitoring
-    - _Requirements: 12.7_
+- [ ] 18. 배포 및 CI/CD 설정
+  - [ ] 18.1 Vercel 배포 구성
+    - Vercel 프로젝트 설정
+    - 환경 변수 구성
+    - 프리뷰 배포 설정
+    - _요구사항: 12.7_
+  - [ ] 18.2 모바일 앱 배포 구성
+    - EAS Build 설정
+    - 앱 서명 구성
+    - 빌드 프로필 생성
+    - _요구사항: 12.7_
+  - [ ] 18.3 CI/CD 파이프라인 설정
+    - GitHub Actions 워크플로우 생성
+    - 자동화된 테스트 추가
+    - 자동화된 배포 구현
+    - _요구사항: 12.7_
+  - [ ] 18.4 모니터링 구성
+    - 에러 추적 설정
+    - 분석 구현
+    - 성능 모니터링 생성
+    - _요구사항: 12.7_
