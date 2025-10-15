@@ -1,135 +1,144 @@
-# Turborepo starter
+# Gamified TODO App - Monorepo
 
-This Turborepo starter is maintained by the Turborepo core team.
+A cross-platform gamified TODO list application built with Next.js (web) and React Native (mobile), powered by Supabase.
 
-## Using this example
+## 🏗️ Monorepo Structure
 
-Run the following command:
+This is a Turborepo monorepo containing:
 
-```sh
-npx create-turbo@latest
+### Apps
+
+- `apps/web` - Next.js web application
+- `apps/native` - React Native mobile application (Expo)
+
+### Packages
+
+- `packages/ui` - Shared React Native components (works on web via React Native Web)
+- `packages/types` - Shared TypeScript types and Zod schemas
+- `packages/utils` - Shared utility functions
+- `packages/hooks` - Shared React hooks
+- `packages/api` - Type-safe API client for Supabase
+- `packages/eslint-config` - Shared ESLint configurations
+- `packages/typescript-config` - Shared TypeScript configurations
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js >= 18
+- npm >= 10.8.2
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
 ```
 
-## What's inside?
+### Development
 
-This Turborepo includes the following packages/apps:
+```bash
+# Run all apps in development mode
+npm run dev
 
-### Apps and Packages
+# Run specific app
+npm run dev --filter=web
+npm run dev --filter=native
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+# Build all packages and apps
+npm run build
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+# Lint all packages and apps
+npm run lint
 
-### Utilities
+# Run tests
+npm run test
 
-This Turborepo has some additional tools already setup for you:
+# Type check
+npm run check-types
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+# Format code
+npm run format
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## 📦 Package Management
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+This monorepo uses npm workspaces. To add a dependency:
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+```bash
+# Add to root (dev dependency)
+npm install -D <package> -w root
 
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+# Add to specific workspace
+npm install <package> -w @repo/ui
+npm install <package> -w web
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## 🔧 Configuration
 
+### TypeScript
+
+- `@repo/typescript-config/base.json` - Base TypeScript config
+- `@repo/typescript-config/nextjs.json` - Next.js specific config
+- `@repo/typescript-config/react-native.json` - React Native specific config
+- `@repo/typescript-config/react-library.json` - React library config
+
+### ESLint
+
+- `@repo/eslint-config/base` - Base ESLint config
+- `@repo/eslint-config/next-js` - Next.js specific config
+- `@repo/eslint-config/react-native` - React Native specific config
+- `@repo/eslint-config/react-internal` - React library config
+
+### Path Aliases
+
+All packages support the following path aliases:
+
+- `@/*` - Source directory
+- `@repo/ui` - UI components package
+- `@repo/types` - Types package
+- `@repo/utils` - Utils package
+- `@repo/hooks` - Hooks package
+- `@repo/api` - API client package
+
+## 🏃 Turborepo Tasks
+
+- `build` - Build all apps and packages
+- `dev` - Run all apps in development mode
+- `lint` - Lint all packages and apps
+- `test` - Run tests for all packages and apps
+- `check-types` - Type check all packages and apps
+- `clean` - Clean all build artifacts and node_modules
+
+## 📝 Code Style
+
+This project uses:
+
+- **Prettier** for code formatting
+- **ESLint** for code linting
+- **TypeScript** for type safety
+
+Format your code before committing:
+
+```bash
+npm run format
 ```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+## 🤝 Contributing
 
-### Remote Caching
+1. Create a new branch
+2. Make your changes
+3. Run `npm run lint` and `npm run check-types`
+4. Format your code with `npm run format`
+5. Commit your changes
+6. Create a pull request
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+## 📚 Useful Links
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+Learn more about the technologies used:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+- [Turborepo Documentation](https://turborepo.com/docs)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Native Documentation](https://reactnative.dev/docs/getting-started)
+- [Expo Documentation](https://docs.expo.dev/)
+- [Supabase Documentation](https://supabase.com/docs)
