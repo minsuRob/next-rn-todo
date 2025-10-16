@@ -74,19 +74,6 @@ export default function SignupScreen() {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Username</Text>
-            <TextInput
-              style={styles.input}
-              value={username}
-              onChangeText={setUsername}
-              placeholder="Choose a username"
-              placeholderTextColor="#9ca3af"
-              autoCapitalize="none"
-              autoComplete="username"
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
             <Text style={styles.label}>Password</Text>
             <TextInput
               style={styles.input}
