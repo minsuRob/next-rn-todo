@@ -10,7 +10,7 @@ import { ThemeProvider } from '@repo/ui'
 
 import { ThemeProvider as AppThemeProvider, useAppTheme } from '@/lib/theme/context'
 import { customFontsToLoad } from '@/lib/theme/typography'
-import { useAuth } from '@repo/hooks'
+import { useAuth, AuthProvider } from '@repo/hooks'
 
 const queryClient = new QueryClient()
 
@@ -66,9 +66,11 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <AppThemeProvider>
-          <RootLayoutNav />
-        </AppThemeProvider>
+        <AuthProvider>
+          <AppThemeProvider>
+            <RootLayoutNav />
+          </AppThemeProvider>
+        </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
   )
