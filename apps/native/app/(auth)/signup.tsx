@@ -17,6 +17,7 @@ export default function SignupScreen() {
   const router = useRouter()
   const { signUp, isLoading } = useAuth()
   const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
@@ -38,7 +39,7 @@ export default function SignupScreen() {
     }
 
     try {
-      await signUp(email, password)
+      await signUp({ email, password, username: username || email.split('@')[0] })
       router.replace('/(tabs)')
     } catch (err: any) {
       setError(err.message || 'Signup failed')
@@ -69,6 +70,19 @@ export default function SignupScreen() {
               keyboardType="email-address"
               autoCapitalize="none"
               autoComplete="email"
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Username</Text>
+            <TextInput
+              style={styles.input}
+              value={username}
+              onChangeText={setUsername}
+              placeholder="Choose a username"
+              placeholderTextColor="#9ca3af"
+              autoCapitalize="none"
+              autoComplete="username"
             />
           </View>
 

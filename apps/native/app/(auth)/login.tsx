@@ -27,7 +27,7 @@ export default function LoginScreen() {
     }
 
     try {
-      await signIn(email, password)
+      await signIn({ email, password })
       router.replace('/(tabs)')
     } catch (err: any) {
       setError(err.message || 'Login failed')
