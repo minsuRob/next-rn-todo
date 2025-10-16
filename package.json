@@ -9,7 +9,15 @@
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\"",
     "check-types": "turbo run check-types",
-    "clean": "turbo run clean && rm -rf node_modules"
+    "clean": "turbo run clean && rm -rf node_modules",
+    "supabase:login": "supabase login",
+    "supabase:link": "supabase link --project-ref rkjcnlnepuoqvtwtjugl",
+    "db:migrate:new": "supabase migration new",
+    "db:migrate:apply": "supabase migration up",
+    "db:migrate:list": "supabase migration list",
+    "db:push": "supabase db push",
+    "db:reset": "supabase db reset --force",
+    "db:studio": "supabase studio"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
