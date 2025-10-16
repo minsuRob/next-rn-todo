@@ -4,9 +4,9 @@ import type {
   GetTaskStatsResponse,
   GetStreakDataResponse,
 } from '@repo/types'
-import { getSupabaseClient } from './client.js'
-import { handleSupabaseError } from './errors.js'
-import { mapStreak } from './mappers.js'
+import { getSupabaseClient } from './client'
+import { handleSupabaseError } from './errors'
+import { mapStreak } from './mappers'
 
 /**
  * Get XP history over time
@@ -77,6 +77,7 @@ export async function getTaskStats(): Promise<GetTaskStatsResponse> {
       .select('type, difficulty')
       .eq('user_id', user.id)
       .eq('is_completed', true)
+      .returns<Array<{ type: string; difficulty: string }>>()
 
     if (completedError) throw completedError
 
@@ -85,14 +86,14 @@ export async function getTaskStats(): Promise<GetTaskStatsResponse> {
     const completionRate = totalTasks > 0 ? (totalCompleted / totalTasks) * 100 : 0
 
     // Count by type
-    const byType = {
+    const byType: Record<string, number> = {
       habit: 0,
       daily: 0,
       todo: 0,
     }
 
     // Count by difficulty
-    const byDifficulty = {
+    const byDifficulty: Record<string, number> = {
       trivial: 0,
       easy: 0,
       medium: 0,
@@ -100,15 +101,31 @@ export async function getTaskStats(): Promise<GetTaskStatsResponse> {
     }
 
     for (const task of completedTasks || []) {
-      byType[task.type as keyof typeof byType]++
-      byDifficulty[task.difficulty as keyof typeof byDifficulty]++
+      const taskType = task.type
+      const taskDifficulty = task.difficulty
+
+      if (taskType && byType[taskType] !== undefined) {
+        byType[taskType] = (byType[taskType] || 0) + 1
+      }
+      if (taskDifficulty && byDifficulty[taskDifficulty] !== undefined) {
+        byDifficulty[taskDifficulty] = (byDifficulty[taskDifficulty] || 0) + 1
+      }
     }
 
     return {
       totalCompleted,
       completionRate,
-      byType,
-      byDifficulty,
+      byType: {
+        habit: byType.habit || 0,
+        daily: byType.daily || 0,
+        todo: byType.todo || 0,
+      },
+      byDifficulty: {
+        trivial: byDifficulty.trivial || 0,
+        easy: byDifficulty.easy || 0,
+        medium: byDifficulty.medium || 0,
+        hard: byDifficulty.hard || 0,
+      },
     }
   } catch (error) {
     return handleSupabaseError(error)
@@ -168,6 +185,7 @@ export async function getStreakData(): Promise<GetStreakDataResponse> {
       .eq('user_id', user.id)
       .eq('is_completed', true)
       .not('completed_at', 'is', null)
+      .returns<Array<{ completed_at: string | null }>>()
 
     if (completedTasksError) throw completedTasksError
 

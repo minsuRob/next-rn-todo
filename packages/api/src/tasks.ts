@@ -10,9 +10,9 @@ import type {
   DeleteTaskRequest,
 } from '@repo/types'
 import { calculateXP, calculateGoldReward, calculateRequiredXP } from '@repo/utils'
-import { getSupabaseClient } from './client.js'
-import { handleSupabaseError, NotFoundError } from './errors.js'
-import { mapTask, mapCharacter } from './mappers.js'
+import { getSupabaseClient } from './client'
+import { handleSupabaseError, NotFoundError } from './errors'
+import { mapTask, mapCharacter } from './mappers'
 
 /**
  * Get tasks with optional filtering

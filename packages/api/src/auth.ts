@@ -5,9 +5,9 @@ import type {
   SignInResponse,
   SocialAuthProvider,
 } from '@repo/types'
-import { getSupabaseClient } from './client.js'
-import { handleSupabaseError, AuthenticationError } from './errors.js'
-import { mapProfile, mapCharacter } from './mappers.js'
+import { getSupabaseClient } from './client'
+import { handleSupabaseError, AuthenticationError } from './errors'
+import { mapProfile, mapCharacter } from './mappers'
 
 /**
  * Sign up a new user with email and password
@@ -33,7 +33,7 @@ export async function signUp(request: SignUpRequest): Promise<SignUpResponse> {
       .insert({
         id: authData.user.id,
         username: request.username,
-      })
+      } as any)
       .select()
       .single()
 
@@ -50,7 +50,7 @@ export async function signUp(request: SignUpRequest): Promise<SignUpResponse> {
         gold: 0,
         theme: 'default',
         avatar_config: {},
-      })
+      } as any)
       .select()
       .single()
 
@@ -122,10 +122,13 @@ export async function signInWithSocial(provider: SocialAuthProvider): Promise<{ 
   const supabase = getSupabaseClient()
 
   try {
+    const redirectUrl =
+      typeof window !== 'undefined' ? `${window.location.origin}/callback` : undefined
+
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: provider.provider,
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: redirectUrl,
       },
     })
 

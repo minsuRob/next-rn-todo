@@ -9,9 +9,9 @@ import type {
   RedeemRewardResponse,
   GetInventoryResponse,
 } from '@repo/types'
-import { getSupabaseClient } from './client.js'
-import { handleSupabaseError, NotFoundError, InsufficientResourcesError } from './errors.js'
-import { mapReward, mapInventoryItem, mapCharacter, mapTransaction } from './mappers.js'
+import { getSupabaseClient } from './client'
+import { handleSupabaseError, NotFoundError, InsufficientResourcesError } from './errors'
+import { mapReward, mapInventoryItem, mapCharacter, mapTransaction } from './mappers'
 
 /**
  * Get rewards with optional filtering

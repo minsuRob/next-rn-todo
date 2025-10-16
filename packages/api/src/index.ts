@@ -1,34 +1,34 @@
 // Main export file for @repo/api package
 
 // Client configuration
-export * from './client.js'
+export * from './client'
 
 // Authentication
-export * from './auth.js'
+export * from './auth'
 
 // Tasks
-export * from './tasks.js'
+export * from './tasks'
 
 // Character
-export * from './character.js'
+export * from './character'
 
 // Rewards
-export * from './rewards.js'
+export * from './rewards'
 
 // Streaks
-export * from './streaks.js'
+export * from './streaks'
 
 // Analytics
-export * from './analytics.js'
+export * from './analytics'
 
 // Social
-export * from './social.js'
+export * from './social'
 
 // Errors
-export * from './errors.js'
+export * from './errors'
 
 // Mappers
-export * from './mappers.js'
+export * from './mappers'
 
 // Types
-export type { Database } from './types.js'
+export type { Database } from './types'

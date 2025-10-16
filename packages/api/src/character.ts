@@ -8,9 +8,9 @@ import type {
   UnequipItemResponse,
   StatBonuses,
 } from '@repo/types'
-import { getSupabaseClient } from './client.js'
-import { handleSupabaseError, NotFoundError, ConflictError } from './errors.js'
-import { mapCharacter, mapInventoryItem } from './mappers.js'
+import { getSupabaseClient } from './client'
+import { handleSupabaseError, NotFoundError, ConflictError } from './errors'
+import { mapCharacter, mapInventoryItem } from './mappers'
 
 /**
  * Get character with equipped items and total stats
@@ -88,15 +88,16 @@ export async function updateCharacter(
         .eq('user_id', user.id)
         .single()
 
+      const avatarConfig = (currentCharacter as any)?.avatar_config || {}
       updateData.avatar_config = {
-        ...(currentCharacter?.avatar_config || {}),
+        ...avatarConfig,
         ...request.avatarConfig,
       }
     }
 
     const { data, error } = await supabase
       .from('characters')
-      .update(updateData)
+      .update(updateData as any)
       .eq('user_id', user.id)
       .select()
       .single()

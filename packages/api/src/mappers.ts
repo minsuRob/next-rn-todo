@@ -17,7 +17,7 @@ import type {
   AvatarConfig,
   StatBonuses,
 } from '@repo/types'
-import type { Database } from './types.js'
+import type { Database } from './types'
 
 type TaskRow = Database['public']['Tables']['tasks']['Row']
 type CharacterRow = Database['public']['Tables']['characters']['Row']

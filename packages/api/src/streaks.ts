@@ -7,9 +7,9 @@ import type {
   LogHabitResponse,
 } from '@repo/types'
 import { calculateXP, calculateGoldReward } from '@repo/utils'
-import { getSupabaseClient } from './client.js'
-import { handleSupabaseError, NotFoundError } from './errors.js'
-import { mapStreak, mapHabitLog } from './mappers.js'
+import { getSupabaseClient } from './client'
+import { handleSupabaseError, NotFoundError } from './errors'
+import { mapStreak, mapHabitLog } from './mappers'
 
 /**
  * Get streaks for user's tasks

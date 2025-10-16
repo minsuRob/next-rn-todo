@@ -11,15 +11,15 @@ import type {
   GetChallengeLeaderboardRequest,
   GetChallengeLeaderboardResponse,
 } from '@repo/types'
-import { getSupabaseClient } from './client.js'
-import { handleSupabaseError, NotFoundError, ConflictError } from './errors.js'
+import { getSupabaseClient } from './client'
+import { handleSupabaseError, NotFoundError, ConflictError } from './errors'
 import {
   mapFriendship,
   mapProfile,
   mapCharacter,
   mapChallenge,
   mapChallengeParticipant,
-} from './mappers.js'
+} from './mappers'
 
 /**
  * Send a friend request to another user

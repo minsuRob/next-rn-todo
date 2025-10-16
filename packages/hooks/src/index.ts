@@ -1,7 +1,7 @@
 // Main export file for @repo/hooks package
 
 // Authentication hooks
-export { AuthProvider, useAuth, useSession, useUser } from './auth.js'
+export { AuthProvider, useAuth, useSession, useUser } from './auth'
 
 // Task management hooks
 export {
@@ -11,7 +11,7 @@ export {
   useDeleteTask,
   useCompleteTask,
   taskKeys,
-} from './tasks.js'
+} from './tasks'
 
 // Character hooks
 export {
@@ -20,7 +20,7 @@ export {
   useLevelUp,
   useEquipment,
   characterKeys,
-} from './character.js'
+} from './character'
 
 // Rewards hooks
 export {
@@ -31,7 +31,7 @@ export {
   useInventory,
   rewardKeys,
   inventoryKeys,
-} from './rewards.js'
+} from './rewards'
 
 // Realtime hooks
 export {
@@ -40,4 +40,4 @@ export {
   useCharacterUpdates,
   useChallengeUpdates,
   useRealtimeSync,
-} from './realtime.js'
+} from './realtime'
