@@ -1,98 +1,355 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, Pressable } from 'react-native'
+import { useRouter } from 'expo-router'
+import { Avatar, ProgressBar, Button, Container } from '@repo/ui'
+import { useCharacter, useTasks, useCompleteTask } from '@repo/hooks'
+import { useColorScheme } from '@/hooks/use-color-scheme'
+import { Colors } from '@/constants/theme'
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function DashboardScreen() {
+  const colorScheme = useColorScheme()
+  const colors = Colors[colorScheme ?? 'light']
+  const router = useRouter()
 
-export default function HomeScreen() {
+  const { data: characterData, isLoading: isLoadingCharacter } = useCharacter()
+  const { data: tasksData, isLoading: isLoadingTasks } = useTasks({ limit: 10 })
+  const { mutate: completeTask } = useCompleteTask()
+
+  const character = characterData?.character
+  const todayTasks = tasksData?.tasks || []
+
+  const xpNeeded = Math.floor(100 * Math.pow(character?.level || 1, 1.5))
+  const currentStreak = 5 // Mock data
+
+  const handleCompleteTask = (taskId: string) => {
+    completeTask({ taskId })
+  }
+
+  if (isLoadingCharacter || isLoadingTasks) {
+    return (
+      <View style={[styles.loadingContainer, { backgroundColor: colors.background }]}>
+        <ActivityIndicator size="large" color={colors.tint} />
+      </View>
+    )
+  }
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <ScrollView
+      style={[styles.container, { backgroundColor: colors.background }]}
+      showsVerticalScrollIndicator={false}
+    >
+      <Container maxWidth="lg">
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={[styles.title, { color: colors.text }]}>Dashboard</Text>
+          <Text style={[styles.subtitle, { color: colors.tabIconDefault }]}>
+            Welcome back! Let's make today productive.
+          </Text>
+        </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+        {/* Character Stats Card */}
+        <View style={[styles.card, { backgroundColor: colors.card }]}>
+          <View style={styles.characterHeader}>
+            <Avatar name={character?.userId || 'User'} size="lg" />
+            <View style={styles.characterInfo}>
+              <Text style={[styles.characterName, { color: colors.text }]}>
+                Level {character?.level || 1} Adventurer
+              </Text>
+              <Text style={[styles.characterSubtext, { color: colors.tabIconDefault }]}>
+                {character?.gold || 0} 💰 Gold
+              </Text>
+            </View>
+          </View>
+
+          {/* XP Progress */}
+          <View style={styles.statSection}>
+            <View style={styles.statHeader}>
+              <Text style={[styles.statLabel, { color: colors.tabIconDefault }]}>Experience</Text>
+              <Text style={[styles.statValue, { color: colors.text }]}>
+                {character?.xp || 0} / {xpNeeded} XP
+              </Text>
+            </View>
+            <ProgressBar
+              value={character?.xp || 0}
+              max={xpNeeded}
+              color={colors.tint}
+              height={12}
+            />
+          </View>
+
+          {/* HP Progress */}
+          <View style={styles.statSection}>
+            <View style={styles.statHeader}>
+              <Text style={[styles.statLabel, { color: colors.tabIconDefault }]}>Health</Text>
+              <Text style={[styles.statValue, { color: colors.text }]}>
+                {character?.hp || 100} / 100 HP
+              </Text>
+            </View>
+            <ProgressBar value={character?.hp || 100} max={100} color="#ef4444" height={12} />
+          </View>
+
+          {/* Streak */}
+          <View style={[styles.streakCard, { backgroundColor: colors.tint + '20' }]}>
+            <Text style={styles.streakIcon}>🔥</Text>
+            <View style={styles.streakInfo}>
+              <Text style={[styles.streakValue, { color: colors.tint }]}>
+                {currentStreak} Day Streak
+              </Text>
+              <Text style={[styles.streakLabel, { color: colors.tabIconDefault }]}>
+                Keep it going!
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Today's Tasks */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>Today's Tasks</Text>
+            <Pressable onPress={() => router.push('/(tabs)/tasks')}>
+              <Text style={[styles.sectionLink, { color: colors.tint }]}>View All</Text>
+            </Pressable>
+          </View>
+
+          {todayTasks.length === 0 ? (
+            <View style={[styles.card, { backgroundColor: colors.card }]}>
+              <Text style={[styles.emptyText, { color: colors.tabIconDefault }]}>
+                No tasks for today. Create one to get started!
+              </Text>
+            </View>
+          ) : (
+            todayTasks.slice(0, 5).map((task) => (
+              <View key={task.id} style={[styles.taskCard, { backgroundColor: colors.card }]}>
+                <View style={styles.taskContent}>
+                  <View style={styles.taskInfo}>
+                    <Text style={[styles.taskTitle, { color: colors.text }]}>{task.title}</Text>
+                    <View style={styles.taskMeta}>
+                      <Text style={[styles.taskType, { color: colors.tabIconDefault }]}>
+                        {task.type}
+                      </Text>
+                      <Text style={[styles.taskDifficulty, { color: colors.tabIconDefault }]}>
+                        • {task.difficulty}
+                      </Text>
+                    </View>
+                  </View>
+                  {!task.isCompleted && (
+                    <Button
+                      title="Complete"
+                      onPress={() => handleCompleteTask(task.id)}
+                      variant="primary"
+                      size="sm"
+                    />
+                  )}
+                  {task.isCompleted && (
+                    <Text style={[styles.completedBadge, { color: '#22c55e' }]}>✓ Done</Text>
+                  )}
+                </View>
+              </View>
+            ))
+          )}
+        </View>
+
+        {/* Quick Actions */}
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Quick Actions</Text>
+          <View style={styles.quickActions}>
+            <Pressable
+              style={[styles.quickActionCard, { backgroundColor: colors.card }]}
+              onPress={() => router.push('/(tabs)/tasks')}
+            >
+              <Text style={styles.quickActionIcon}>✓</Text>
+              <Text style={[styles.quickActionLabel, { color: colors.text }]}>New Task</Text>
+            </Pressable>
+
+            <Pressable
+              style={[styles.quickActionCard, { backgroundColor: colors.card }]}
+              onPress={() => router.push('/(tabs)/character')}
+            >
+              <Text style={styles.quickActionIcon}>⚔️</Text>
+              <Text style={[styles.quickActionLabel, { color: colors.text }]}>Character</Text>
+            </Pressable>
+
+            <Pressable
+              style={[styles.quickActionCard, { backgroundColor: colors.card }]}
+              onPress={() => router.push('/(tabs)/shop')}
+            >
+              <Text style={styles.quickActionIcon}>🏪</Text>
+              <Text style={[styles.quickActionLabel, { color: colors.text }]}>Shop</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Container>
+    </ScrollView>
+  )
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
   },
-  stepContainer: {
-    gap: 8,
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  header: {
+    paddingVertical: 24,
+    paddingHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: '700',
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  subtitle: {
+    fontSize: 16,
   },
-});
+  card: {
+    borderRadius: 12,
+    padding: 20,
+    marginHorizontal: 16,
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  characterHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+    gap: 16,
+  },
+  characterInfo: {
+    flex: 1,
+  },
+  characterName: {
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  characterSubtext: {
+    fontSize: 14,
+  },
+  statSection: {
+    marginBottom: 16,
+  },
+  statHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  statLabel: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  statValue: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  streakCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 8,
+    marginTop: 8,
+    gap: 12,
+  },
+  streakIcon: {
+    fontSize: 32,
+  },
+  streakInfo: {
+    flex: 1,
+  },
+  streakValue: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 2,
+  },
+  streakLabel: {
+    fontSize: 12,
+  },
+  section: {
+    marginBottom: 32,
+    paddingHorizontal: 16,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+  },
+  sectionLink: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  emptyText: {
+    textAlign: 'center',
+    fontSize: 14,
+    padding: 32,
+  },
+  taskCard: {
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 12,
+  },
+  taskContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 16,
+  },
+  taskInfo: {
+    flex: 1,
+  },
+  taskTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  taskMeta: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  taskType: {
+    fontSize: 12,
+    textTransform: 'capitalize',
+  },
+  taskDifficulty: {
+    fontSize: 12,
+    textTransform: 'capitalize',
+  },
+  completedBadge: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  quickActions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  quickActionCard: {
+    flex: 1,
+    minWidth: 100,
+    padding: 20,
+    borderRadius: 12,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  quickActionIcon: {
+    fontSize: 32,
+    marginBottom: 8,
+  },
+  quickActionLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+})

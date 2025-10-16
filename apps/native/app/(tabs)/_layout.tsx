@@ -1,13 +1,17 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs } from 'expo-router'
+import React from 'react'
+import { Text } from 'react-native'
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { HapticTab } from '@/components/haptic-tab'
+import { Colors } from '@/constants/theme'
+import { useColorScheme } from '@/hooks/use-color-scheme'
+
+function TabBarIcon({ emoji, color }: { emoji: string; color: string }) {
+  return <Text style={{ fontSize: 24, color }}>{emoji}</Text>
+}
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme()
 
   return (
     <Tabs
@@ -15,21 +19,47 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-      }}>
+        tabBarStyle: {
+          backgroundColor: colorScheme === 'dark' ? '#1f2937' : '#ffffff',
+          borderTopColor: colorScheme === 'dark' ? '#374151' : '#e5e7eb',
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Dashboard',
+          tabBarIcon: ({ color }) => <TabBarIcon emoji="🏠" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="tasks"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Tasks',
+          tabBarIcon: ({ color }) => <TabBarIcon emoji="✓" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="character"
+        options={{
+          title: 'Character',
+          tabBarIcon: ({ color }) => <TabBarIcon emoji="⚔️" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="shop"
+        options={{
+          title: 'Shop',
+          tabBarIcon: ({ color }) => <TabBarIcon emoji="🏪" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color }) => <TabBarIcon emoji="⚙️" color={color} />,
         }}
       />
     </Tabs>
-  );
+  )
 }

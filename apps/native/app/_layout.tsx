@@ -1,13 +1,18 @@
 import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native'
-import { Stack } from 'expo-router'
+import { Stack, useRouter, useSegments } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect } from 'react'
 import 'react-native-reanimated'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ThemeProvider } from '@repo/ui'
 
 import { ThemeProvider as AppThemeProvider, useAppTheme } from '@/lib/theme/context'
 import { customFontsToLoad } from '@/lib/theme/typography'
+import { useAuth } from '@repo/hooks'
+
+const queryClient = new QueryClient()
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -15,11 +20,29 @@ export const unstable_settings = {
 
 function RootLayoutNav() {
   const { navigationTheme, themeContext } = useAppTheme()
+  const { user, isLoading } = useAuth()
+  const segments = useSegments()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (isLoading) return
+
+    const inAuthGroup = segments[0] === '(auth)'
+
+    if (!user && !inAuthGroup) {
+      // Redirect to login if not authenticated
+      router.replace('/(auth)/login')
+    } else if (user && inAuthGroup) {
+      // Redirect to tabs if authenticated
+      router.replace('/(tabs)')
+    }
+  }, [user, segments, isLoading])
 
   return (
     <NavigationThemeProvider value={navigationTheme}>
       <StatusBar style={themeContext === 'dark' ? 'light' : 'dark'} />
       <Stack>
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
       </Stack>
@@ -41,8 +64,12 @@ export default function RootLayout() {
   }
 
   return (
-    <AppThemeProvider>
-      <RootLayoutNav />
-    </AppThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <AppThemeProvider>
+          <RootLayoutNav />
+        </AppThemeProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
